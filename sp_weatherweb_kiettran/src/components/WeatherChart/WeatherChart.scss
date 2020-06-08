@@ -1,7 +1,4 @@
 .chart {
-  // &-wrapper {
-  //   height: 40%;
-  // }
   &-container {
     position: relative;
     overflow-x: scroll;
@@ -28,10 +25,4 @@
       margin-left: 10px;
     }
   }
-}
-
-.chartjs-render-monitor {
-  position: absolute;
-  top: 0;
-  left: 0;
 }
