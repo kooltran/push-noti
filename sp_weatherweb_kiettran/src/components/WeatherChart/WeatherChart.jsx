@@ -4,19 +4,20 @@ import React, {
   useLayoutEffect,
   useCallback,
 } from "react";
-import { formatTime, generateTime } from "../../helpers";
+import {
+  formatTime,
+  generateTime,
+  convertPxToTime,
+  getTimeMode,
+  getQuadraticCurvePoint,
+} from "../../helpers";
+import sun from "../../assets/img/icons/sun.svg";
 
 const NUMB_DAYS = 5;
 
 const sampleDateWater = [
   {
     waterLevel: {
-      start: 2,
-      end: 0.3,
-    },
-  },
-  {
-    waterLevel: {
       start: 0.3,
       end: 2,
     },
@@ -67,6 +68,12 @@ const sampleDateWater = [
     waterLevel: {
       start: 0.3,
       end: 2,
+    },
+  },
+  {
+    waterLevel: {
+      start: 2,
+      end: 0.3,
     },
   },
 ];
@@ -77,64 +84,26 @@ const tideData = sampleDateWater.map((item, i) => ({
   ...item,
   ...sampleDataTime[i],
 }));
-
+console.log(tideData, "tideData");
 const WeatherChart = () => {
   const { innerWidth } = window;
   const chartRef = React.createRef();
   const chartContainerRef = React.createRef();
+  const sunRef = React.createRef();
   const [chartWidth, setChartWidth] = useState(innerWidth);
   const [scrollNumb, setScroll] = useState(0);
+  const [tmpPos, setPos] = useState(0.0);
+  const [day, setDay] = useState(0);
+  const canvasWidth = NUMB_DAYS * chartWidth;
   const halfInnerWidth = chartWidth / 2;
   const pxEachHr = chartWidth / 12;
-  // let position = 0.0;
+  const timeFromPx = convertPxToTime(scrollNumb, chartWidth);
+  const timeScroll = formatTime(timeFromPx);
+  const mode = getTimeMode(timeFromPx).mode;
 
-  const convertDataToXY = useCallback(
-    (chartHeight, waterLevel, time) => {
-      return {
-        x: (time - 7) * pxEachHr,
-        y: chartHeight - waterLevel * 100,
-      };
-    },
-    [pxEachHr]
-  );
-
-  const drawTimeChart = useCallback(
-    (chartHeight) => {
-      const ctx = chartRef.current.getContext("2d");
-      ctx.beginPath();
-      ctx.lineWidth = 2;
-      ctx.strokeStyle = "#ff8514";
-
-      for (let i = 0; i < NUMB_DAYS; i++) {
-        ctx.moveTo(i * chartWidth, chartHeight);
-        if (i % 2) {
-          ctx.quadraticCurveTo(
-            chartWidth * i + halfInnerWidth,
-            chartHeight * 2,
-            chartWidth * (i + 1),
-            chartHeight
-          );
-
-          // fill color for night times
-          ctx.fillStyle = "rgba(0, 0, 0, 0.2)";
-          ctx.fillRect(chartWidth * i, 0, chartWidth, chartHeight);
-        } else {
-          ctx.quadraticCurveTo(
-            chartWidth * i + halfInnerWidth,
-            -chartHeight + 150,
-            chartWidth * (i + 1),
-            chartHeight
-          );
-        }
-      }
-
-      ctx.stroke();
-    },
-    [chartRef, chartWidth, halfInnerWidth]
-  );
   const _fillChartBg = ({ start, end, chartHeight, ctx, options = {} }) => {
-    ctx.lineTo(end.x, chartHeight);
-    ctx.lineTo(start.x, chartHeight);
+    ctx.lineTo(end.x, chartHeight - 20);
+    ctx.lineTo(start.x, chartHeight - 20);
     ctx.lineTo(start.x, start.y);
 
     ctx.fillStyle = options.fillStyle || "#c1e5f7";
@@ -153,6 +122,49 @@ const WeatherChart = () => {
     ctx.fillRect(start.x - 28, start.y - 44, 55, 44);
   };
 
+  const convertDataToXY = useCallback(
+    (chartHeight, waterLevel, time) => {
+      return {
+        x: (time - 7 - 7) * pxEachHr,
+        y: chartHeight - waterLevel * 100,
+      };
+    },
+    [pxEachHr]
+  );
+
+  const drawTimeChart = useCallback(
+    (chartHeight) => {
+      const ctx = chartRef.current.getContext("2d");
+      ctx.beginPath();
+      ctx.lineWidth = 2;
+      ctx.strokeStyle = "#ff8514";
+
+      for (let i = 0; i < NUMB_DAYS; i++) {
+        ctx.moveTo(i * chartWidth + halfInnerWidth, chartHeight);
+        if (!(i % 2)) {
+          ctx.quadraticCurveTo(
+            chartWidth * (i + 1),
+            -chartHeight + 150,
+            (i + 1) * chartWidth + halfInnerWidth,
+            chartHeight
+          );
+        } else {
+          // fill color for night times
+          ctx.fillStyle = "rgba(0, 0, 0, 0.2)";
+          ctx.fillRect(
+            (chartWidth + halfInnerWidth) * i,
+            0,
+            chartWidth + halfInnerWidth,
+            chartHeight
+          );
+        }
+      }
+
+      ctx.stroke();
+    },
+    [chartRef, chartWidth, halfInnerWidth]
+  );
+
   const drawTideChart = useCallback(
     (chartHeight) => {
       const ctx = chartRef.current.getContext("2d");
@@ -160,7 +172,6 @@ const WeatherChart = () => {
         .height;
       ctx.beginPath();
       ctx.strokeStyle = "#94d6f7";
-
       for (let i = 0; i < tideData.length; i++) {
         const startPt = convertDataToXY(
           chartHeight,
@@ -173,6 +184,7 @@ const WeatherChart = () => {
           tideData[i].time.end
         );
 
+        // draw info tide and time of TideChart
         _fillText(startPt, ctx, {
           waterLevel: tideData[i].waterLevel.start,
           time: tideData[i].time.start,
@@ -202,6 +214,7 @@ const WeatherChart = () => {
           ctx.moveTo(middlePtX, middlePtY);
           ctx.quadraticCurveTo(middlePtX, endPt.y, endPt.x, endPt.y);
 
+          // fill background color for the TideChart
           _fillChartBg({
             start: middlePt,
             end: endPt,
@@ -212,6 +225,7 @@ const WeatherChart = () => {
           ctx.moveTo(startPt.x, startPt.y);
           ctx.quadraticCurveTo(middlePtX, startPt.y, middlePtX, middlePtY);
 
+          // fill background color for the TideChart
           _fillChartBg({
             start: startPt,
             end: middlePt,
@@ -222,6 +236,7 @@ const WeatherChart = () => {
           ctx.moveTo(middlePtX, middlePtY);
           ctx.quadraticCurveTo(middlePtX, endPt.y, endPt.x, endPt.y);
 
+          // fill background color for the TideChart
           _fillChartBg({
             start: middlePt,
             end: endPt,
@@ -237,19 +252,21 @@ const WeatherChart = () => {
   );
 
   const handleScroll = ({ target }) => {
+    const day = Math.floor(scrollNumb / chartWidth);
     setScroll(target.scrollLeft);
+    setDay(day);
   };
 
   const handleCanvas = useCallback(() => {
-    const chartHeight = chartContainerRef.current.offsetHeight;
+    const chartHeight = chartContainerRef.current.offsetHeight - 20;
     const c = chartRef.current;
 
-    c.width = NUMB_DAYS * chartWidth;
-    c.height = chartHeight * 2;
+    c.width = canvasWidth;
+    c.height = chartHeight;
 
     drawTideChart(chartHeight);
     drawTimeChart(chartHeight);
-  }, [chartContainerRef, chartRef, chartWidth, drawTideChart, drawTimeChart]);
+  }, [canvasWidth, chartContainerRef, chartRef, drawTideChart, drawTimeChart]);
 
   useLayoutEffect(() => {
     const updateChartWidth = (e) => {
@@ -267,7 +284,40 @@ const WeatherChart = () => {
 
   useEffect(() => {
     handleCanvas();
-  }, [chartWidth, handleCanvas, scrollNumb]);
+  }, [chartContainerRef, chartWidth, handleCanvas, scrollNumb]);
+
+  useEffect(() => {
+    const ctx = chartRef.current.getContext("2d");
+    const chartHeight = chartContainerRef.current.offsetHeight - 20;
+
+    //get position of sun base on the TimeChart
+    const ps = getQuadraticCurvePoint(
+      day * chartWidth + halfInnerWidth,
+      chartHeight,
+      chartWidth * (day + 1),
+      -chartHeight + 150,
+      (day + 1) * chartWidth + halfInnerWidth,
+      chartHeight,
+      tmpPos
+    );
+
+    if (day > 0) {
+      setPos(() => (scrollNumb / chartWidth) % 2);
+    } else {
+      setPos(() => scrollNumb / chartWidth);
+    }
+    //draw sun icon
+    ctx.drawImage(sunRef.current, ps.x - 10, ps.y - 10, 20, 20);
+  }, [
+    chartContainerRef,
+    chartRef,
+    chartWidth,
+    day,
+    halfInnerWidth,
+    scrollNumb,
+    sunRef,
+    tmpPos,
+  ]);
 
   return (
     <div
@@ -280,6 +330,10 @@ const WeatherChart = () => {
         <span className="orange-title">Sunrise & Sunset</span>
       </div>
       <canvas className="chart-canvas" ref={chartRef} />
+      <img ref={sunRef} src={sun} className="img-sun" alt="sun" />
+      {mode === "moon" && <div className="icon-moon"></div>}
+      {mode === "sun" && <div className="icon-sun"></div>}
+      <span className="time-text">{timeScroll}</span>
     </div>
   );
 };
