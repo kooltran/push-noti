@@ -146,6 +146,7 @@ exports[`should render Layout correctly 1`] = `
   </div>
   <div
     className="chart-container"
+    onScroll={[Function]}
   >
     <div
       className="chart-title"
@@ -164,6 +165,22 @@ exports[`should render Layout correctly 1`] = `
     <canvas
       className="chart-canvas"
     />
+    <img
+      alt="sun"
+      className="img-sun"
+      src="sun.svg"
+    />
+    <span
+      className="time-text"
+    >
+      6:00 am
+    </span>
+    <div
+      className="day-text"
+    >
+      Day 
+      1
+    </div>
   </div>
 </div>
 `;

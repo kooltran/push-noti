@@ -13,12 +13,13 @@ $COLOR_GRADIENT_BG: 180deg, rgba(50, 94, 189, 0.9136029411764706) 0%,
   rgba(25, 107, 138, 0.7791491596638656) 60%,
   rgba(0, 172, 255, 0.31976540616246496) 100%;
 
+$icon_path: "../../assets/img/icons/";
+
 //ICON
-$ICON_ARROW_DOWN: "../../assets/img/icons/down_arrow.svg";
-$ICON_BELL: "../../assets/img/icons/bell.svg";
-$ICON_CLOUD: "../../assets/img/icons/cloud.svg";
-$ICON_TEMPERATURE: "../../assets/img/icons/temperature.svg";
-$ICON_HUMIDITY: "../../assets/img/icons/water_drop.svg";
-$ICON_PLUS: "../../assets/img/icons/plus.svg";
-$ICON_MOON: "../../assets/img/icons/moon.svg";
-$ICON_SUN: "../../assets/img/icons/sun.svg";
+$ICON_ARROW_DOWN: $icon_path + "down_arrow.svg";
+$ICON_BELL: $icon_path + "bell.svg";
+$ICON_CLOUD: $icon_path + "cloud.svg";
+$ICON_TEMPERATURE: $icon_path + "temperature.svg";
+$ICON_HUMIDITY: $icon_path + "water_drop.svg";
+$ICON_PLUS: $icon_path + "plus.svg";
+$ICON_MOON: $icon_path + "moon.svg";
