@@ -1,0 +1,37 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should render Nav correctly 1`] = `
+<div
+  className="nav-container"
+>
+  <div
+    className="nav-burger"
+  >
+    <span />
+    <span />
+    <span />
+  </div>
+  <div
+    className="nav-location"
+  >
+    <div
+      className="nav-location-name"
+    >
+      myENV
+    </div>
+    <div
+      className="nav-location-dropdown"
+    >
+      <span>
+        Current Location
+      </span>
+      <span
+        className="icon-arrow"
+      />
+    </div>
+  </div>
+  <div
+    className="nav-notification"
+  />
+</div>
+`;
