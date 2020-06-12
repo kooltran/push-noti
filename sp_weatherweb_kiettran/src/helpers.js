@@ -89,7 +89,7 @@ export const formatTime = (time) => {
 export const getTimeMode = (time) => {
   const fmTime = time % 24;
   const hr = Math.floor(fmTime);
-  if (hr >= 19 || hr < 6) {
+  if (hr >= 18 || hr < 6) {
     return { mode: "moon" };
   } else {
     return { mode: "sun" };
