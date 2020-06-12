@@ -7,7 +7,8 @@
     background-color: $COLOR_WHITE;
 
     .time-text {
-      position: absolute;
+      display: inline-block;
+      position: sticky;
       color: $COLOR_BLACK;
       bottom: 0;
       left: 50%;
@@ -57,7 +58,8 @@
     }
 
     .day-text {
-      position: absolute;
+      display: inline-block;
+      position: sticky;
       bottom: calc(100% - 60px);
       left: 50%;
       font-size: 24px;
@@ -68,7 +70,7 @@
   }
 
   &-title {
-    position: absolute;
+    position: sticky;
     bottom: calc(100% - 25px);
     left: 15px;
     width: 100%;

@@ -248,11 +248,11 @@ const WeatherChart = () => {
       ref={chartContainerRef}
       onScroll={handleScroll}
     >
+      <canvas className="chart-canvas" ref={chartRef} />
       <div className="chart-title">
         <span className="blue-title">Tide</span>
         <span className="orange-title">Sunrise & Sunset</span>
       </div>
-      <canvas className="chart-canvas" ref={chartRef} />
       <img ref={sunRef} src={sun} className="img-sun" alt="sun" />
       {mode === "moon" && <div className="icon-moon"></div>}
       <span className="time-text">{timeScroll}</span>
