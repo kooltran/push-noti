@@ -1,8 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import './index.css'
-import App from './App'
-import { AppContextProvider } from './AppContext'
+import App from './client/App'
+import { AppContextProvider } from './client/AppContext'
 import 'antd/dist/antd.css'
 
 ReactDOM.render(
