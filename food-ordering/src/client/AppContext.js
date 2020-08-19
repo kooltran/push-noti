@@ -1,18 +1,18 @@
 import React, { useContext, useCallback, useReducer } from 'react'
-import rootReducer from './reducers/rootReducer'
-import { getMenuReducer } from './reducers/getMenuReducer'
-console.log(rootReducer, 'rootReducer')
+import { rootReducer, initialStateCombined } from './reducers/rootReducer'
+
 export const initialState = {
-  searchResult: [],
-  isLoading: false,
-  searchFail: null,
+  menu: {
+    isLoading: false,
+    menuList: []
+  }
 }
 
 export const AppContext = React.createContext({})
 
 export const AppContextProvider = props => {
   const { children } = props
-  const [data, dispatch] = useReducer(rootReducer, initialState)
+  const [data, dispatch] = useReducer(rootReducer, initialStateCombined)
   return (
     <AppContext.Provider value={{ data, setData: dispatch }}>
       {children}

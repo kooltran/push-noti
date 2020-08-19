@@ -45,9 +45,11 @@ const getMenuList = async () => {
       const items = document.querySelectorAll('#list_menu .item-menu')
       let menuInfo = []
       items.forEach((item = {}) => {
+        console.log(item)
         const img = item.children[0].children[0].src
         const name = item.children[1].textContent.trim()
-        menuInfo.push({ name, img })
+        const price = item.children[2].children[0].textContent.trim()
+        menuInfo.push({ name, img, price })
       })
       return menuInfo
     })
@@ -55,11 +57,15 @@ const getMenuList = async () => {
     if (existList.length === 0) {
       MenuList.insertMany(menuList)
     } else {
-      existList.map(ele => {
-        menuList.map(async (item = {}) =>
-          MenuList.updateOne({ _id: ele.id }, item, { upsert: true })
-        )
-      })
+      const newList = menuList.map((item, idx) => ({
+        id: existList[idx]._id,
+        name: item.name,
+        img: item.img,
+        price: item.price
+      }))
+      newList.map(async (item = {}) =>
+        MenuList.updateOne({ _id: item.id }, item, { upsert: false })
+      )
     }
     return menuList
   } catch (error) {

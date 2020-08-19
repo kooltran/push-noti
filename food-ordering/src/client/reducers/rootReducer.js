@@ -1,15 +1,14 @@
 import { getMenuReducer } from './getMenuReducer'
 import combineReducers from 'react-combine-reducers'
-// import { initialState } from '../AppContext'
 
 const initialState = {
-  searchResult: [],
+  menuList: [],
   isLoading: false,
-  searchFail: null,
+  getMenuFail: null
 }
 
 const [rootReducer, initialStateCombined] = combineReducers({
-  menu: [getMenuReducer, initialState],
+  menu: [getMenuReducer, initialState]
 })
 
-export default rootReducer
+export { rootReducer, initialStateCombined }
