@@ -2,7 +2,7 @@ import { useAppContext } from '../../AppContext'
 import {
   getMenuRequest,
   getMenuSuccess,
-  getMenuFail,
+  getMenuFail
 } from '../../actions/getMenuAction'
 import { fetchMenuApi } from '../../api/fetchMenuApi'
 import { useCallback } from 'react'

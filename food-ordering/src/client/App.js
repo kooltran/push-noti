@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import MenuList from './components/menu/menu'
+import MenuList from './components/Menu/Menu'
 
 const App = () => {
   return (

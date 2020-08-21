@@ -5,12 +5,11 @@ const config = require('../config')
 
 async function authenticateService({ email, password }) {
   const user = await User.findOne({ email })
-  console.log(user, 'user')
-  if (user && bcrypt.compareSync(password, user.hash)) {
-    const token = jwt.sign({ sub: user.id }, config.secret, { expiresIn: '7d' })
+  if (user && bcrypt.compareSync(password, user.password)) {
+    // const token = jwt.sign({ sub: user.id }, config.secret, { expiresIn: '7d' })
     return {
-      ...user.toJSON(),
-      token,
+      ...user.toJSON()
+      // token
     }
   }
 }
@@ -24,26 +23,31 @@ async function getByIdService(id) {
 }
 
 async function create(userParam) {
+  console.log(userParam, 'userParam')
   // validate
   if (await User.findOne({ email: userParam.email })) {
     // eslint-disable-next-line no-throw-literal
     throw 'Email "' + userParam.email + '" is already taken'
   }
 
-  const user = new User(userParam)
-
   // hash password
   if (userParam.password) {
-    user.hash = bcrypt.hashSync(userParam.password, 10)
+    const hashPass = bcrypt.hashSync(userParam.password, 10)
+    const user = new User({
+      email: userParam.email,
+      username: userParam.username,
+      roles: userParam.roles,
+      createdDate: userParam.createdDate,
+      password: hashPass
+    })
+    // save user
+    await user.save()
   }
-
-  // save user
-  await user.save()
 }
 
 module.exports = {
   authenticateService,
   getAllService,
   getByIdService,
-  create,
+  create
 }

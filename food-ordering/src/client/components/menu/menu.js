@@ -3,7 +3,7 @@ import { useFetchMenu } from './useFetchMenu'
 import { useAppContext } from '../../AppContext'
 import './menu.scss'
 
-import MenuItem from './menuItem'
+import MenuItem from './MenuItem'
 
 const MenuList = () => {
   const [{ menu }] = useAppContext()

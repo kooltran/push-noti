@@ -12,13 +12,13 @@ router.get('/list', async (req, res) => {
   }
 })
 
-router.post('/order', async (req, res) => {
+router.post('/create', async (req, res) => {
   try {
     const order = await new OrderDish(req.body).save()
 
     return res.send({
       message: 'Created new order successfully',
-      data: order,
+      data: order
     })
   } catch (err) {
     console.log(err)
@@ -39,10 +39,10 @@ router.patch('/:orderId', async (req, res) => {
   try {
     const updatedOrder = await OrderDish.updateOne(
       {
-        _id: req.params.orderId,
+        _id: req.params.orderId
       },
       {
-        $set: { dish_name: req.body.dish_name },
+        $set: { dish_name: req.body.dish_name }
       }
     )
     res.json(updatedOrder)

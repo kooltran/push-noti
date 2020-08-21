@@ -30,6 +30,7 @@ function getById(req, res, next) {
 }
 
 function authenticate(req, res, next) {
+  console.log(req.sessionID, 'req')
   userService
     .authenticateService(req.body)
     .then(user =>
