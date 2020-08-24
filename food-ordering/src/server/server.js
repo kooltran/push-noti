@@ -8,6 +8,7 @@ const puppeteer = require('puppeteer')
 const bodyParser = require('body-parser')
 const session = require('express-session')
 const passport = require('passport')
+const cookiesSession = require('cookie-session')
 
 const cors = require('cors')
 
@@ -16,14 +17,10 @@ const config = require('./config.json')
 const MenuList = require('./models/menu')
 const orderRoute = require('./routes/orderDish')
 const userRoute = require('./routes/user')
-const jwt = require('./helpers/jwt')
-const errorHandler = require('./helpers/errorshandler')
 
 require('./passport-setup')
 
 dotenv.config()
-
-chrome.setDefaultService(new chrome.ServiceBuilder(chromedriver.path).build())
 
 const app = express()
 const PORT = process.env.PORT || 3000
@@ -95,13 +92,12 @@ app.get('/menuList', async (request, response) => {
   }
 })
 
-// app.use(
-//   session({
-//     secret: 'kooltran',
-//     resave: false,
-//     saveUninitialized: true
-//   })
-// )
+app.use(
+  cookiesSession({
+    maxAge: 7 * 24 * 60 * 60 * 1000,
+    keys: [config.session]
+  })
+)
 
 app.use(passport.initialize())
 app.use(passport.session())
@@ -112,20 +108,25 @@ app.get('/good', (req, res) => res.send(`Welcome mr ${req.user.email}`))
 app.get(
   '/google',
   passport.authenticate('google', {
-    scope: ['profile', 'email']
+    scope: ['profile']
   })
 )
 
 app.get('/google/callback', passport.authenticate('google'), (req, res) => {
-  res.send('you reached the callback URI')
+  res.redirect('http://localhost:3001')
 })
 
 app.use('/orders', orderRoute)
 
 app.use('/users', userRoute)
 
-// app.use(jwt())
-// app.use(errorHandler)
+app.use('/user', (req, res) => {
+  if (req.user) {
+    res.send(req.user)
+  } else {
+    res.send({})
+  }
+})
 
 app.listen(PORT, () => {
   console.log('Server started on http://localhost:' + PORT)

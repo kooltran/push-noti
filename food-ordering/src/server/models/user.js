@@ -26,8 +26,9 @@ const Schema = mongoose.Schema
 // })
 
 const UserSchema = new Schema({
-  usename: String,
-  googleId: String
+  username: String,
+  googleId: String,
+  avatar: String
 })
 
 const User = mongoose.model('User', UserSchema)
