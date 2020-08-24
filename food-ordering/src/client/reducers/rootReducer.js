@@ -1,5 +1,6 @@
 import { getMenuReducer } from './getMenuReducer'
 import { getCurUserReducer } from './getCurrentUserReducer'
+import { orderReducer } from './orderReducer'
 import combineReducers from 'react-combine-reducers'
 
 const menuInitState = {
@@ -13,9 +14,14 @@ const currentUserInitState = {
   userFail: null
 }
 
+const orderReducerInitState = {
+  orderList: []
+}
+
 const [rootReducer, initialStateCombined] = combineReducers({
   menu: [getMenuReducer, menuInitState],
-  currentUser: [getCurUserReducer, currentUserInitState]
+  currentUser: [getCurUserReducer, currentUserInitState],
+  order: [orderReducer, orderReducerInitState]
 })
 
 export { rootReducer, initialStateCombined }

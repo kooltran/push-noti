@@ -4,3 +4,5 @@ export const GET_MENU_FAIL = 'GET_MENU_FAIL'
 
 export const GET_CUR_USER_SUCCESS = 'GET_CUR_USER_SUCCESS'
 export const GET_CUR_USER_FAIL = 'GET_CUR_USER_FAIL'
+
+export const ADD_ORDER = 'ADD_ORDER'
