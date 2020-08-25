@@ -14,7 +14,7 @@ router.get('/list', async (req, res) => {
 
 router.post('/create', async (req, res) => {
   try {
-    const order = await new OrderDish(req.body).save()
+    const order = await OrderDish.insertMany(req.body)
 
     return res.send({
       message: 'Created new order successfully',

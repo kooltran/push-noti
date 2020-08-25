@@ -1,7 +1,55 @@
-import React from 'react'
+import React, { useState } from 'react'
+import classnames from 'classnames'
+import { useAppContext } from '../../AppContext'
+import OrderItem from './OrderItem'
+import { convertToLongDate } from '../../helpers'
+import { useSubmitOrder } from './useSubmitOrder'
+
+import CartIcon from '../../../assets/cart.svg'
+import IconLoading from '../../../assets/loading.svg'
+
+import './Order.scss'
 
 const OrderCart = () => {
-  return <h3>Order Cart</h3>
+  const [{ currentUser, cart, order }] = useAppContext()
+  const { cartList } = cart
+  const { isLoading } = order
+  const [openCart, setOpenCart] = useState(false)
+  const submitOrders = useSubmitOrder()
+
+  const handleOpenCart = () => setOpenCart(!openCart)
+
+  const handleSubmitOrder = () => {
+    const orderListParams = cartList.map(order => ({
+      dish_name: order.dish_name,
+      quantity: order.quantity,
+      name: currentUser.user.username,
+      date: convertToLongDate(new Date())
+    }))
+    submitOrders(orderListParams)
+  }
+
+  return (
+    <div className='cart-wrapper'>
+      <div className='cart-icon' onClick={handleOpenCart}>
+        <img src={CartIcon} alt='cart-icon' />
+        <span className='cart-qty'>{cartList.length}</span>
+      </div>
+      <div
+        className={classnames('cart-content', {
+          show: openCart && cartList.length
+        })}
+      >
+        {isLoading && <img className='cart-loading' src={IconLoading} alt='' />}
+        {cartList.map(order => (
+          <OrderItem key={order.id} order={order} />
+        ))}
+        <button className='btn-order' onClick={handleSubmitOrder}>
+          Order
+        </button>
+      </div>
+    </div>
+  )
 }
 
 export default OrderCart

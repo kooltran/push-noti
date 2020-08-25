@@ -1,12 +1,8 @@
-const request = require('request')
 const dotenv = require('dotenv')
 const mongoose = require('mongoose')
 const express = require('express')
-const chrome = require('selenium-webdriver/chrome')
-const chromedriver = require('chromedriver')
 const puppeteer = require('puppeteer')
 const bodyParser = require('body-parser')
-const session = require('express-session')
 const passport = require('passport')
 const cookiesSession = require('cookie-session')
 

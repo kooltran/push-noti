@@ -3,13 +3,13 @@ import { useFetchMenu } from './useFetchMenu'
 import { useAppContext } from '../../AppContext'
 import { fetchCurrentUser } from '../../api/fetchCurrentUser'
 import { getCurrentuserSuccess } from '../../actions/getCurrentUserAction'
-
+import IconLoading from '../../../assets/loading.svg'
 import './menu.scss'
 
 import MenuItem from './MenuItem'
 
 const MenuList = () => {
-  const [{ menu, curUser }, dispatch] = useAppContext()
+  const [{ menu }, dispatch] = useAppContext()
   const fetchMenuList = useFetchMenu()
   const { isLoading, menuList, getMenuFail } = menu
 
@@ -24,6 +24,9 @@ const MenuList = () => {
 
   return (
     <div className='menu-wrapper'>
+      {isLoading && (
+        <img className='icon-loading' src={IconLoading} alt='loading-spinner' />
+      )}
       {menuList.map(item => (
         <MenuItem key={item._id} item={item} />
       ))}

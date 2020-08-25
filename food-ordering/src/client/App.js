@@ -1,12 +1,20 @@
-import React, { useEffect } from 'react'
-import MenuList from './components/Menu/Menu'
+import React from 'react'
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+import Home from './pages/Home/Home'
+import Orders from './pages/Orders/Orders'
 
 const App = () => {
   return (
-    <div>
-      <h1>Food Ordering</h1>
-      <MenuList />
-    </div>
+    <Router>
+      <Switch>
+        <Route exact path='/'>
+          <Home />
+        </Route>
+        <Route path='/orders'>
+          <Orders />
+        </Route>
+      </Switch>
+    </Router>
   )
 }
 
