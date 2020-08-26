@@ -8,6 +8,7 @@ passport.serializeUser((user, done) => {
 
 passport.deserializeUser((id, done) => {
   User.findById(id).then(user => {
+    console.log(user, 'user')
     done(null, user)
   })
 })
@@ -24,7 +25,6 @@ passport.use(
     (request, accessToken, refreshToken, profile, done) => {
       User.findOne({ googleId: profile.id }).then(currentUser => {
         if (currentUser) {
-          console.log(profile)
           done(null, currentUser)
         } else {
           new User({

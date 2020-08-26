@@ -6,6 +6,6 @@ export const createOrder = orders => {
   return axios.post(`/orders/create`, orders).then(res => res.data)
 }
 
-export const getOrderList = () => {
-  return axios.get('/orders/list').then(res => res.json())
+export const getOrders = () => {
+  return axios.get(`/orders/list`).then(res => res.data)
 }

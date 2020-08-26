@@ -1,7 +1,8 @@
 import { getMenuReducer } from './getMenuReducer'
 import { getCurUserReducer } from './getCurrentUserReducer'
 import { cartReducer } from './cartReducer'
-import { orderReducer } from './orderReducer'
+import { submitOrderReducer } from './submitOrderReducer'
+import { getOrdersReducer } from './getOrdersReducer'
 import combineReducers from 'react-combine-reducers'
 
 const menuInitState = {
@@ -19,18 +20,24 @@ const cartReducerInitState = {
   cartList: []
 }
 
-const orderReducerInitState = {
-  orderList: [],
+const submitorderReducerInitState = {
   createOrderSuccess: false,
   isLoading: false,
-  orderFail: null
+  submitOrderFail: null
+}
+
+const orderListReducerInitState = {
+  orderList: [],
+  isLoading: false,
+  getOrdersFail: null
 }
 
 const [rootReducer, initialStateCombined] = combineReducers({
   menu: [getMenuReducer, menuInitState],
   currentUser: [getCurUserReducer, currentUserInitState],
   cart: [cartReducer, cartReducerInitState],
-  order: [orderReducer, orderReducerInitState]
+  submitOrder: [submitOrderReducer, submitorderReducerInitState],
+  orders: [getOrdersReducer, orderListReducerInitState]
 })
 
 export { rootReducer, initialStateCombined }

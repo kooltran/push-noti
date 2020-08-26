@@ -6,6 +6,20 @@ const router = express.Router()
 router.get('/list', async (req, res) => {
   try {
     const orderList = await OrderDish.find()
+    const orderListRes = orderList.filter(order => {
+      const orderDate = new Date(order.date).toDateString()
+      const currentDate = new Date().toDateString()
+      return orderDate === currentDate
+    })
+    res.json(orderListRes)
+  } catch (err) {
+    res.json({ message: err })
+  }
+})
+
+router.get('/all', async (req, res) => {
+  try {
+    const orderList = await OrderDish.find()
     res.json(orderList)
   } catch (err) {
     res.json({ message: err })

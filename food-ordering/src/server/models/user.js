@@ -28,7 +28,8 @@ const Schema = mongoose.Schema
 const UserSchema = new Schema({
   username: String,
   googleId: String,
-  avatar: String
+  avatar: String,
+  role: Array
 })
 
 const User = mongoose.model('User', UserSchema)

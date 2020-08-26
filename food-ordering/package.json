@@ -14,6 +14,7 @@
     "cheerio": "^1.0.0-rc.3",
     "chromedriver": "^84.0.1",
     "classnames": "^2.2.6",
+    "cookie-parser": "^1.4.5",
     "cookie-session": "^1.4.0",
     "core-js": "^3.6.5",
     "cors": "^2.8.5",
@@ -40,7 +41,6 @@
     "request": "^2.88.2",
     "selenium-webdriver": "^4.0.0-alpha.7"
   },
-  "proxy": "http://localhost:3000/",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
@@ -63,5 +63,6 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "proxy": "http://localhost:3000"
 }

@@ -8,8 +8,8 @@ import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
 const Home = () => {
-  const [{ order }] = useAppContext()
-  const { createOrderSuccess } = order
+  const [{ submitOrder }] = useAppContext()
+  const { createOrderSuccess } = submitOrder
 
   useEffect(() => {
     if (createOrderSuccess) {

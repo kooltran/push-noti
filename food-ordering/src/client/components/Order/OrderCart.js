@@ -11,9 +11,9 @@ import IconLoading from '../../../assets/loading.svg'
 import './Order.scss'
 
 const OrderCart = () => {
-  const [{ currentUser, cart, order }] = useAppContext()
+  const [{ currentUser, cart, submitOrder }] = useAppContext()
   const { cartList } = cart
-  const { isLoading } = order
+  const { isLoading } = submitOrder
   const [openCart, setOpenCart] = useState(false)
   const submitOrders = useSubmitOrder()
 
@@ -24,7 +24,7 @@ const OrderCart = () => {
       dish_name: order.dish_name,
       quantity: order.quantity,
       name: currentUser.user.username,
-      date: convertToLongDate(new Date())
+      date: new Date(999999999999)
     }))
     submitOrders(orderListParams)
   }

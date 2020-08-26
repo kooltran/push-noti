@@ -5,6 +5,7 @@ const puppeteer = require('puppeteer')
 const bodyParser = require('body-parser')
 const passport = require('passport')
 const cookiesSession = require('cookie-session')
+const session = require('express-session')
 
 const cors = require('cors')
 
@@ -23,7 +24,7 @@ const PORT = process.env.PORT || 3000
 const db = mongoose.connection
 
 app.use(bodyParser.json())
-app.use(cors())
+app.use(cors({ credentials: true, origin: 'http://localhost:3001/' }))
 
 const URL = 'https://www.anzi.com.vn/'
 
@@ -90,16 +91,16 @@ app.get('/menuList', async (request, response) => {
 
 app.use(
   cookiesSession({
-    maxAge: 7 * 24 * 60 * 60 * 1000,
-    keys: [config.session]
+    maxAge: 100 * 24 * 60 * 60 * 1000,
+    keys: [config.session],
+    secret: config.secret
   })
 )
 
+// app.use(session({ secret: 'secret' }))
+
 app.use(passport.initialize())
 app.use(passport.session())
-
-app.get('/failed', (req, res) => res.send('You failed to log in!'))
-app.get('/good', (req, res) => res.send(`Welcome mr ${req.user.email}`))
 
 app.get(
   '/google',
@@ -109,20 +110,20 @@ app.get(
 )
 
 app.get('/google/callback', passport.authenticate('google'), (req, res) => {
+  // console.log(req.user, 'user Callback')
   res.redirect('http://localhost:3001')
 })
 
-app.use('/orders', orderRoute)
-
-app.use('/users', userRoute)
-
-app.use('/user', (req, res) => {
+app.get('/user', (req, res) => {
   if (req.user) {
+    console.log(req.user, 'requestUser')
     res.send(req.user)
   } else {
     res.send({})
   }
 })
+
+app.use('/orders', orderRoute)
 
 app.listen(PORT, () => {
   console.log('Server started on http://localhost:' + PORT)

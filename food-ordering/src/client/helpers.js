@@ -37,5 +37,5 @@ export const convertToLongDate = dateString => {
   const monthName = monthsName[month]
   const year = d.getFullYear()
 
-  return `${day} ${monthName} ${year} - ${h}:${min}:${sec}`
+  return `${day} ${monthName} ${year}`
 }

@@ -1,0 +1,102 @@
+.order {
+  &-wrapper {
+    margin-top: 50px;
+  }
+
+  &-content {
+    box-shadow: 0 1px 6px 0 rgba(32, 33, 36, 0.28);
+    padding: 20px;
+  }
+
+  &-item {
+    display: flex;
+    font-size: 16px;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #ddd;
+    padding: 10px 5px;
+
+    &__title {
+      display: flex;
+      font-size: 18px;
+      font-weight: 600;
+      justify-content: space-between;
+      align-items: center;
+      color: #fff;
+      padding: 10px 5px;
+      background-color: #2f6d8c;
+
+      span {
+        width: 25%;
+        text-align: center;
+
+        &:nth-child(2) {
+          width: 20%;
+        }
+
+        &:last-child {
+          width: 10%;
+        }
+      }
+    }
+
+    &:nth-child(2n + 1) {
+      background: #eaeaea;
+    }
+
+    &:last-child {
+      border-bottom: 0;
+    }
+
+    span {
+      width: 25%;
+      text-align: center;
+
+      &:first-child {
+        text-align: left;
+      }
+    }
+
+    .quantity {
+      width: 20%;
+      text-align: center;
+    }
+
+    .paid {
+      width: 10%;
+      text-align: center;
+      position: relative;
+      height: 25px;
+
+      .check-mask {
+        position: absolute;
+        top: 0;
+        right: 50%;
+        width: 25px;
+        height: 25px;
+        display: inline-block;
+        border: 1px solid #333;
+        border-radius: 2px;
+        content: '';
+      }
+
+      input[type='checkbox'] {
+        position: absolute;
+        top: 0;
+        right: 50%;
+        width: 25px;
+        height: 25px;
+        opacity: 0;
+        z-index: 10;
+
+        &:checked {
+          + .check-mask {
+            background-image: url('../../../assets/tick.svg');
+            border-color: green;
+            background-size: cover;
+          }
+        }
+      }
+    }
+  }
+}

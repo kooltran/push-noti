@@ -2,7 +2,9 @@ import {
   SUBMIT_ORDERS_REQUEST,
   SUBMIT_ORDERS_SUCCESS,
   SUBMIT_ORDERS_FAIL,
-  GET_ORDER_LIST
+  GET_ORDERS_REQUEST,
+  GET_ORDERS_SUCCESS,
+  GET_ORDERS_FAIL
 } from './actionTypes'
 
 export const submitOrderRequest = () => ({
@@ -18,6 +20,16 @@ export const submitOrderFail = res => ({
   payload: res
 })
 
-export const getOrderList = () => ({
-  type: GET_ORDER_LIST
+export const getOrdersRequest = () => ({
+  type: GET_ORDERS_REQUEST
+})
+
+export const getOrdersSuccess = res => ({
+  type: GET_ORDERS_SUCCESS,
+  payload: res
+})
+
+export const getOrdersFail = err => ({
+  type: GET_ORDERS_FAIL,
+  payload: err
 })
