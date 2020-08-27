@@ -8,7 +8,6 @@ passport.serializeUser((user, done) => {
 
 passport.deserializeUser((id, done) => {
   User.findById(id).then(user => {
-    console.log(user, 'user')
     done(null, user)
   })
 })
@@ -20,7 +19,7 @@ passport.use(
         '916830606420-8r2rpmvppildett3uar4v1rqbk6le1i2.apps.googleusercontent.com',
       clientSecret: 'qal5QZMi3B2cGTUb07nzEkJl',
       callbackURL: '/google/callback',
-      passReqToCallback: true
+      passReqToCallback: true,
     },
     (request, accessToken, refreshToken, profile, done) => {
       User.findOne({ googleId: profile.id }).then(currentUser => {
@@ -30,7 +29,8 @@ passport.use(
           new User({
             username: profile.displayName,
             googleId: profile.id,
-            avatar: profile._json.picture
+            avatar: profile._json.picture,
+            roles: profile.email === 'kiettrankm11@gmail.com' ? ['admin'] : [],
           })
             .save()
             .then(newUser => {

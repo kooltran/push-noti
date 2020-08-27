@@ -4,12 +4,12 @@ import { useAppContext } from '../../AppContext'
 import {
   getOrdersRequest,
   getOrdersSuccess,
-  getOrdersFail
+  getOrdersFail,
 } from '../../actions/orderAction'
 import { deleteCart } from '../../actions/cartAction'
 import { getOrders } from '../../api/order'
 
-import { convertToLongDate } from '../../helpers'
+import { convertToLongDate, groupByNTotal } from '../../helpers'
 
 import './Orders.scss'
 import IconLoading from '../../../assets/loading.svg'
@@ -17,9 +17,9 @@ import IconLoading from '../../../assets/loading.svg'
 const Orders = () => {
   const [
     {
-      orders: { orderList, isLoading }
+      orders: { orderList, isLoading },
     },
-    dispatch
+    dispatch,
   ] = useAppContext()
 
   useEffect(() => {
@@ -35,31 +35,55 @@ const Orders = () => {
     }
     getOrderList()
   }, [dispatch])
+  const sortedList = orderList.sort((a, b) =>
+    a.dish_name.localeCompare(b.dish_name)
+  )
+
+  const orderListGroupByDishname = groupByNTotal(orderList, 'dish_name')
+
+  const orderListTotalQty = Object.keys(orderListGroupByDishname).map(item => ({
+    name: item,
+    qty: orderListGroupByDishname[item].reduce(
+      (acc, ele) => acc + ele.quantity,
+      0
+    ),
+  }))
 
   return (
-    <div className='order-wrapper'>
-      <h1 className='order-title'>Orders List</h1>
-      {isLoading && (
-        <img className='icon-loading' src={IconLoading} alt='loading-spinner' />
-      )}
+    <div className="order-wrapper">
+      <h1 className="order-title">Orders List</h1>
       {orderList.length !== 0 && (
-        <div className='order-content'>
-          <div className='order-item__title'>
+        <div className="order-total">
+          <h3 className="title">Total List</h3>
+          {orderListTotalQty.map(order => (
+            <div key={order.name} className="total-item">
+              <span>{order.name}</span>
+              <span>{order.qty}</span>
+            </div>
+          ))}
+        </div>
+      )}
+      {isLoading && (
+        <img className="icon-loading" src={IconLoading} alt="loading-spinner" />
+      )}
+      {sortedList.length !== 0 && (
+        <div className="order-content">
+          <div className="order-item__title">
             <span>Tên Món</span>
             <span>Số Lượng</span>
             <span>Ngày Order</span>
             <span>Người Order</span>
             <span>Paid</span>
           </div>
-          {orderList.map(order => (
-            <div key={order._id} className='order-item'>
-              <span className='dish-name'>{order.dish_name}</span>
-              <span className='quantity'>{order.quantity}</span>
-              <span className='date'>{convertToLongDate(order.date)}</span>
-              <span className='name'>{order.name}</span>
-              <span className='paid'>
-                <input type='checkbox' />
-                <span className='check-mask'></span>
+          {sortedList.map(order => (
+            <div key={order._id} className="order-item">
+              <span className="dish-name">{order.dish_name}</span>
+              <span className="quantity">{order.quantity}</span>
+              <span className="date">{convertToLongDate(order.date)}</span>
+              <span className="name">{order.name}</span>
+              <span className="paid">
+                <input type="checkbox" />
+                <span className="check-mask"></span>
               </span>
             </div>
           ))}

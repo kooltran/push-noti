@@ -4,14 +4,14 @@ import { useAppContext } from '../../AppContext'
 import { fetchCurrentUser } from '../../api/fetchCurrentUser'
 import { getCurrentuserSuccess } from '../../actions/getCurrentUserAction'
 import IconLoading from '../../../assets/loading.svg'
-import './menu.scss'
+import './Menu.scss'
 
 import MenuItem from './MenuItem'
 
 const MenuList = () => {
   const [{ menu }, dispatch] = useAppContext()
   const fetchMenuList = useFetchMenu()
-  const { isLoading, menuList, getMenuFail } = menu
+  const { isLoading, menuList } = menu
 
   useEffect(() => {
     const getCurrentUser = async () => {
@@ -23,9 +23,9 @@ const MenuList = () => {
   }, [dispatch, fetchMenuList])
 
   return (
-    <div className='menu-wrapper'>
+    <div className="menu-wrapper">
       {isLoading && (
-        <img className='icon-loading' src={IconLoading} alt='loading-spinner' />
+        <img className="icon-loading" src={IconLoading} alt="loading-spinner" />
       )}
       {menuList.map(item => (
         <MenuItem key={item._id} item={item} />

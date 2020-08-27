@@ -32,7 +32,7 @@ mongoose
   .connect(process.env.DB_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-    useCreateIndex: true
+    useCreateIndex: true,
   })
   .then(() => console.log('DB connected'))
 db.on('error', err => {
@@ -66,7 +66,7 @@ const getMenuList = async () => {
         id: existList[idx]._id,
         name: item.name,
         img: item.img,
-        price: item.price
+        price: item.price,
       }))
       newList.map(async (item = {}) =>
         MenuList.updateOne({ _id: item.id }, item, { upsert: false })
@@ -93,7 +93,7 @@ app.use(
   cookiesSession({
     maxAge: 100 * 24 * 60 * 60 * 1000,
     keys: [config.session],
-    secret: config.secret
+    secret: config.secret,
   })
 )
 
@@ -105,18 +105,16 @@ app.use(passport.session())
 app.get(
   '/google',
   passport.authenticate('google', {
-    scope: ['profile']
+    scope: ['profile', 'email'],
   })
 )
 
 app.get('/google/callback', passport.authenticate('google'), (req, res) => {
-  // console.log(req.user, 'user Callback')
   res.redirect('http://localhost:3001')
 })
 
 app.get('/user', (req, res) => {
   if (req.user) {
-    console.log(req.user, 'requestUser')
     res.send(req.user)
   } else {
     res.send({})

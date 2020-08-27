@@ -2,7 +2,7 @@ import { useAppContext } from '../../AppContext'
 import {
   submitOrderRequest,
   submitOrderSuccess,
-  submitOrderFail
+  submitOrderFail,
 } from '../../actions/orderAction'
 import { deleteCart } from '../../actions/cartAction'
 import { createOrder } from '../../api/order'

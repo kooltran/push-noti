@@ -24,27 +24,27 @@ const OrderCart = () => {
       dish_name: order.dish_name,
       quantity: order.quantity,
       name: currentUser.user.username,
-      date: new Date(999999999999)
+      date: new Date(),
     }))
     submitOrders(orderListParams)
   }
 
   return (
-    <div className='cart-wrapper'>
-      <div className='cart-icon' onClick={handleOpenCart}>
-        <img src={CartIcon} alt='cart-icon' />
-        <span className='cart-qty'>{cartList.length}</span>
+    <div className="cart-wrapper">
+      <div className="cart-icon" onClick={handleOpenCart}>
+        <img src={CartIcon} alt="cart-icon" />
+        <span className="cart-qty">{cartList.length}</span>
       </div>
       <div
         className={classnames('cart-content', {
-          show: openCart && cartList.length
+          show: openCart && cartList.length,
         })}
       >
-        {isLoading && <img className='cart-loading' src={IconLoading} alt='' />}
+        {isLoading && <img className="cart-loading" src={IconLoading} alt="" />}
         {cartList.map(order => (
           <OrderItem key={order.id} order={order} />
         ))}
-        <button className='btn-order' onClick={handleSubmitOrder}>
+        <button className="btn-order" onClick={handleSubmitOrder}>
           Order
         </button>
       </div>

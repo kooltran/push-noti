@@ -6,7 +6,7 @@ import classnames from 'classnames'
 
 const MenuItem = ({ item }) => {
   const [quantity, setQty] = useState(1)
-  const [{ currentUser, cart }, dispatch] = useAppContext()
+  const [{ currentUser, cart, orderTimeout }, dispatch] = useAppContext()
   const { user } = currentUser
   const { cartList } = cart
 
@@ -33,24 +33,26 @@ const MenuItem = ({ item }) => {
   return (
     <div
       className={classnames('menu-item', {
-        'is-disabled': cartList.some(cart => cart.id === item._id)
+        'is-disabled':
+          cartList.some(cart => cart.id === item._id) ||
+          orderTimeout.isOrderTimeout,
       })}
     >
-      <div className='image'>
-        <img className='img-dish' src={item.img} alt={item.name} />
+      <div className="image">
+        <img className="img-dish" src={item.img} alt={item.name} />
         <div onClick={handleAddTocart}>
-          <img className='icon-add' src={IconPlus} alt='' />
+          <img className="icon-add" src={IconPlus} alt="" />
         </div>
       </div>
 
-      <div className='desc'>
-        <div className='info'>
-          <span className='name'>{item.name}</span>
-          <span className='price'>{item.price}</span>
+      <div className="desc">
+        <div className="info">
+          <span className="name">{item.name}</span>
+          <span className="price">{item.price}</span>
         </div>
-        <div className='quantity'>
+        <div className="quantity">
           <input
-            type='number'
+            type="number"
             value={quantity}
             onChange={handleChangeQuantity}
           />

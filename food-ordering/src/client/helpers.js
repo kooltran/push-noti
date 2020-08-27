@@ -10,7 +10,7 @@ const monthsName = [
   'Sep',
   'Oct',
   'Nov',
-  'Dec'
+  'Dec',
 ]
 
 export const convertSecondToHours = seconds => {
@@ -38,4 +38,31 @@ export const convertToLongDate = dateString => {
   const year = d.getFullYear()
 
   return `${day} ${monthName} ${year}`
+}
+
+export const millisToMinutesAndSeconds = millis => {
+  var minutes = Math.floor(millis / 60000)
+  var seconds = ((millis % 60000) / 1000).toFixed(0)
+  return minutes + ':' + (seconds < 10 ? '0' : '') + seconds
+}
+
+const countDown = setInterval((year, month, day) => {
+  const endTime = new Date(year, month, day, 13, 45, 0, 0).getTime()
+  const curTime = new Date().getTime()
+
+  const remainingTime = endTime - curTime
+
+  // If the count down is over, write some text
+  if (remainingTime < 0) {
+    clearInterval(countDown)
+  }
+}, 1000)
+
+export const groupByNTotal = (array, key) => {
+  return array.reduce((acc, item) => {
+    const sortkey = item[key]
+    acc[sortkey] = acc[sortkey] || []
+    acc[sortkey].push(item)
+    return acc
+  }, {})
 }
