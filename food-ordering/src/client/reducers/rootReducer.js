@@ -3,6 +3,7 @@ import { getCurUserReducer } from './getCurrentUserReducer'
 import { cartReducer } from './cartReducer'
 import { submitOrderReducer } from './submitOrderReducer'
 import { getOrdersReducer } from './getOrdersReducer'
+import { getAllOrdersReducer } from './getAllOrdersReducer'
 import { setOrderTimeout } from './setOrderTimeout'
 import combineReducers from 'react-combine-reducers'
 
@@ -19,6 +20,7 @@ const currentUserInitState = {
 
 const cartReducerInitState = {
   cartList: [],
+  cartAdded: false,
 }
 
 const submitorderReducerInitState = {
@@ -28,6 +30,12 @@ const submitorderReducerInitState = {
 }
 
 const orderListReducerInitState = {
+  orderList: [],
+  isLoading: false,
+  getOrdersFail: null,
+}
+
+const allOrderListReducerInitState = {
   orderList: [],
   isLoading: false,
   getOrdersFail: null,
@@ -44,6 +52,7 @@ const [rootReducer, initialStateCombined] = combineReducers({
   submitOrder: [submitOrderReducer, submitorderReducerInitState],
   orders: [getOrdersReducer, orderListReducerInitState],
   orderTimeout: [setOrderTimeout, orderTimeoutInitState],
+  allOrders: [getAllOrdersReducer, allOrderListReducerInitState],
 })
 
 export { rootReducer, initialStateCombined }

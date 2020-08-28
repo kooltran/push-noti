@@ -1,20 +1,20 @@
 import React from 'react'
-import { Route } from 'react-router-dom'
-
-import { useAppContext } from '../../AppContext'
-import Home from '../../pages/Home/Home'
+import { Route, Redirect } from 'react-router-dom'
 
 const PrivateRoute = ({ component: Component, ...rest }) => {
-  const [
-    {
-      currentUser: { user },
-    },
-  ] = useAppContext()
-  const isAdmin = user.roles && user.roles.some(role => role === 'admin')
+  const roles = localStorage.getItem('roles')
+  const isAdmin = roles === 'admin'
+
   return (
     <Route
       {...rest}
-      render={props => (isAdmin ? <Component {...props} /> : <Home />)}
+      render={({ location }) =>
+        isAdmin ? (
+          <Component />
+        ) : (
+          <Redirect to={{ pathname: '/', state: { from: location } }} />
+        )
+      }
     />
   )
 }

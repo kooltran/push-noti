@@ -2,6 +2,7 @@ import React from 'react'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import Home from './pages/Home/Home'
 import Orders from './pages/Orders/Orders'
+import OrderList from './pages/Orders/OrderList'
 
 import PrivateRoute from './components/PrivateRoute/PrivateRoute'
 
@@ -10,16 +11,19 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 
 const App = () => {
   return (
-    <Router>
-      <Switch>
-        <div className="container">
+    <div className="container">
+      <Router>
+        <Switch>
           <Route exact path="/">
             <Home />
           </Route>
-          <PrivateRoute path="/orders" component={Orders} />
-        </div>
-      </Switch>
-    </Router>
+          <Route path="/orders">
+            <Orders />
+          </Route>
+          <PrivateRoute path="/allOrders" component={OrderList} />
+        </Switch>
+      </Router>
+    </div>
   )
 }
 

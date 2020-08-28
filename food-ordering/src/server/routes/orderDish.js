@@ -28,11 +28,42 @@ router.get('/all', async (req, res) => {
 
 router.post('/create', async (req, res) => {
   try {
-    const order = await OrderDish.insertMany(req.body)
+    const orders = await OrderDish.insertMany(req.body)
+    // const curList = await OrderDish.find()
+    // if (curList.length === 0) {
+    //   await OrderDish.insertMany(req.body)
+    // } else {
+    //   const orderList = req.body
+    //   const updatedList = []
+    //   curList.forEach((item, index) => {
+    //     const orderItem = orderList[index]
+    //     if (
+    //       orderItem &&
+    //       orderItem.name === item.name &&
+    //       orderItem.date === item.date
+    //     ) {
+    //       console.log(orderItem, 'orderItem')
+    //       updatedList.push(orderItem)
+    //     }
+
+    //     if (
+    //       orderItem &&
+    //       orderItem.name !== item.name &&
+    //       orderItem.date !== item.date
+    //     ) {
+    //       updatedList.push(orderItem)
+    //     }
+    //     // console.log(item, 'item')
+    //     // console.log(orderItem, 'orderItem')
+    //   })
+    //   console.log('============')
+    //   console.log([...curList, ...updatedList], 'list')
+    //   // await OrderDish.insertMany([...curList, ...updatedList])
+    // }
 
     return res.send({
       message: 'Created new order successfully',
-      data: order
+      data: orders,
     })
   } catch (err) {
     console.log(err)
@@ -53,10 +84,10 @@ router.patch('/:orderId', async (req, res) => {
   try {
     const updatedOrder = await OrderDish.updateOne(
       {
-        _id: req.params.orderId
+        _id: req.params.orderId,
       },
       {
-        $set: { dish_name: req.body.dish_name }
+        $set: { dish_name: req.body.dish_name },
       }
     )
     res.json(updatedOrder)

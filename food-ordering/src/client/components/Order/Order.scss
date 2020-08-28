@@ -10,6 +10,10 @@
   &-icon {
     cursor: pointer;
 
+    &.shake {
+      animation: shakeCart 0.3s ease-in-out forwards;
+    }
+
     img {
       width: 60px;
     }

@@ -5,15 +5,13 @@ const puppeteer = require('puppeteer')
 const bodyParser = require('body-parser')
 const passport = require('passport')
 const cookiesSession = require('cookie-session')
-const session = require('express-session')
 
-const cors = require('cors')
+// const cors = require('cors')
 
 const config = require('./config.json')
 
 const MenuList = require('./models/menu')
 const orderRoute = require('./routes/orderDish')
-const userRoute = require('./routes/user')
 
 require('./passport-setup')
 
@@ -24,7 +22,7 @@ const PORT = process.env.PORT || 3000
 const db = mongoose.connection
 
 app.use(bodyParser.json())
-app.use(cors({ credentials: true, origin: 'http://localhost:3001/' }))
+// app.use(cors({ credentials: true, origin: 'http://localhost:3001/' }))
 
 const URL = 'https://www.anzi.com.vn/'
 
@@ -91,13 +89,11 @@ app.get('/menuList', async (request, response) => {
 
 app.use(
   cookiesSession({
-    maxAge: 100 * 24 * 60 * 60 * 1000,
+    maxAge: 30 * 24 * 60 * 60 * 1000,
     keys: [config.session],
     secret: config.secret,
   })
 )
-
-// app.use(session({ secret: 'secret' }))
 
 app.use(passport.initialize())
 app.use(passport.session())

@@ -6,13 +6,13 @@ export const getCurUserReducer = (state, action = {}) => {
       return {
         ...state,
         user: action.payload,
-        userFail: null
+        userFail: null,
       }
     case GET_CUR_USER_FAIL:
       return {
         ...state,
-        user: [],
-        userFail: action.payload.message
+        user: {},
+        userFail: action.payload.message,
       }
     default:
       return state

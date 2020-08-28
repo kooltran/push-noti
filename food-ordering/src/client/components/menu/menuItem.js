@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useAppContext } from '../../AppContext'
 import IconPlus from '../../../assets/plus.svg'
-import { addCartItem } from '../../actions/cartAction'
+import { addCartItem, removeCartAddedFlag } from '../../actions/cartAction'
 import classnames from 'classnames'
 
 const MenuItem = ({ item }) => {
@@ -14,12 +14,13 @@ const MenuItem = ({ item }) => {
     const formattedCartItem = { id: item._id, dish_name: item.name, quantity }
     if (user.username) {
       if (cartList.length === 0) {
-        cartList.push(formattedCartItem)
         dispatch(addCartItem(cartList))
+        setTimeout(() => dispatch(removeCartAddedFlag()), 500)
+        cartList.push(formattedCartItem)
       } else {
         const cartAdded = [...cartList, formattedCartItem]
-
         dispatch(addCartItem(cartAdded))
+        setTimeout(() => dispatch(removeCartAddedFlag()), 500)
       }
     } else {
       window.open('http://localhost:3000/google', '_self')

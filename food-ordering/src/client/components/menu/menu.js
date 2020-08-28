@@ -12,10 +12,10 @@ const MenuList = () => {
   const [{ menu }, dispatch] = useAppContext()
   const fetchMenuList = useFetchMenu()
   const { isLoading, menuList } = menu
-
   useEffect(() => {
     const getCurrentUser = async () => {
       const curUser = await fetchCurrentUser()
+      localStorage.setItem('roles', curUser.roles)
       dispatch(getCurrentuserSuccess(curUser))
     }
     fetchMenuList()

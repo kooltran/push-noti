@@ -10,20 +10,14 @@ import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
 const Home = () => {
-  const curDate = new Date()
-  const year = curDate.getFullYear()
-  const month = curDate.getMonth()
-  const day = curDate.getDate()
   const [{ submitOrder }] = useAppContext()
   const { createOrderSuccess } = submitOrder
-  const startTime = new Date(year, month, day, 9, 30, 0, 0).getTime()
-  const currentTime = new Date().getTime()
 
   useEffect(() => {
     if (createOrderSuccess) {
-      toast.success('Your order was submit successfully, Enjoy you meal!!!', {
+      toast.success('Bạn đã đặt món thành công, chúc ngon bạn miệng!!!', {
         position: 'top-right',
-        autoClose: 5000,
+        autoClose: 2000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
@@ -41,7 +35,7 @@ const Home = () => {
       <MenuList />
       <ToastContainer
         position="top-right"
-        autoClose={5000}
+        autoClose={2000}
         hideProgressBar={false}
         newestOnTop={false}
         closeOnClick

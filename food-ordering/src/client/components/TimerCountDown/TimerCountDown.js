@@ -1,9 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react'
-import { useAppContext } from '../../AppContext'
-import {
-  setOrderTimeout,
-  resetOrderTimeout,
-} from '../../actions/setOrderTimeoutAction'
+
 import Modal from 'react-bootstrap/Modal'
 
 import ForbidenOrder from '../../../assets/fobiden-order.svg'
@@ -15,10 +11,12 @@ const TimerCountDown = () => {
   const year = curDate.getFullYear()
   const month = curDate.getMonth()
   const day = curDate.getDate()
-  const endTime = new Date(year, month, day, 22, 2, 0, 0).getTime()
+  const endTime = new Date(year, month, day, 22, 29, 0, 0).getTime()
 
-  const [{ orderTimeout }, dispatch] = useAppContext()
-  const { isOrderTimeout } = orderTimeout
+  const startTime = new Date(year, month, day, 9, 30, 0, 0).getTime()
+  const currentTime = new Date().getTime()
+
+  const isOpenOrder = currentTime >= startTime
 
   const [state, setState] = useState({
     hours: 0,
@@ -27,6 +25,8 @@ const TimerCountDown = () => {
   })
 
   const [countDownTime] = useState(endTime)
+
+  const [isOrderTimeout, setOrderTimeout] = useState(false)
 
   const setNewTime = useCallback(() => {
     if (countDownTime) {
@@ -58,13 +58,13 @@ const TimerCountDown = () => {
       }
       setState({ hours: hours, minutes, seconds })
 
-      // if (hours <= 0 && minutes <= 0 && seconds <= 0) {
-      //   dispatch(setOrderTimeout())
-      // } else {
-      //   dispatch(resetOrderTimeout())
-      // }
+      if (hours <= 0 && minutes <= 0 && seconds <= 0) {
+        setOrderTimeout(true)
+      } else {
+        setOrderTimeout(false)
+      }
     }
-  }, [countDownTime, dispatch])
+  }, [countDownTime])
 
   useEffect(() => {
     setInterval(() => setNewTime(), 1000)
@@ -88,7 +88,7 @@ const TimerCountDown = () => {
 
       <Modal
         className="timeout-modal"
-        show={isOrderTimeout}
+        show={isOrderTimeout || !isOpenOrder}
         onHide={() => {}}
         backdrop="static"
         keyboard={false}
@@ -102,10 +102,18 @@ const TimerCountDown = () => {
             src={ForbidenOrder}
             alt="forbiden-order"
           />
-          <div className="timeout-message">
-            Thời gian order cơm hôm nay đã hết, bạn vui lòng quay lại vào lúc{' '}
-            <span className="note">9h30</span> ngày mai nhé!!!
-          </div>
+          {isOrderTimeout && (
+            <div className="timeout-message">
+              Thời gian order cơm hôm nay đã hết, bạn vui lòng quay lại vào lúc{' '}
+              <span className="note">9h30</span> ngày mai nhé!!!
+            </div>
+          )}
+          {!isOpenOrder && (
+            <div className="timeout-message">
+              Thời gian order chưa tới, bạn vui lòng quay lại vào lúc{' '}
+              <span className="note">9h30</span> nhé!!!
+            </div>
+          )}
         </Modal.Body>
       </Modal>
     </div>

@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import classnames from 'classnames'
 import { useAppContext } from '../../AppContext'
 import OrderItem from './OrderItem'
-import { convertToLongDate } from '../../helpers'
 import { useSubmitOrder } from './useSubmitOrder'
 
 import CartIcon from '../../../assets/cart.svg'
@@ -12,7 +11,7 @@ import './Order.scss'
 
 const OrderCart = () => {
   const [{ currentUser, cart, submitOrder }] = useAppContext()
-  const { cartList } = cart
+  const { cartList, cartAdded } = cart
   const { isLoading } = submitOrder
   const [openCart, setOpenCart] = useState(false)
   const submitOrders = useSubmitOrder()
@@ -24,14 +23,17 @@ const OrderCart = () => {
       dish_name: order.dish_name,
       quantity: order.quantity,
       name: currentUser.user.username,
-      date: new Date(),
+      date: new Date().toDateString(),
     }))
     submitOrders(orderListParams)
   }
 
   return (
     <div className="cart-wrapper">
-      <div className="cart-icon" onClick={handleOpenCart}>
+      <div
+        className={classnames('cart-icon', { shake: cartAdded })}
+        onClick={handleOpenCart}
+      >
         <img src={CartIcon} alt="cart-icon" />
         <span className="cart-qty">{cartList.length}</span>
       </div>

@@ -30,7 +30,11 @@ passport.use(
             username: profile.displayName,
             googleId: profile.id,
             avatar: profile._json.picture,
-            roles: profile.email === 'kiettrankm11@gmail.com' ? ['admin'] : [],
+            roles:
+              profile.email === 'kiettrankm11@gmail.com' ||
+              profile.email === 'thutram54@gmail.com'
+                ? ['admin']
+                : [],
           })
             .save()
             .then(newUser => {

@@ -4,32 +4,49 @@ import {
   SUBMIT_ORDERS_FAIL,
   GET_ORDERS_REQUEST,
   GET_ORDERS_SUCCESS,
-  GET_ORDERS_FAIL
+  GET_ORDERS_FAIL,
+  GET_ALL_ORDERS_REQUEST,
+  GET_ALL_ORDERS_SUCCESS,
+  GET_ALL_ORDERS_FAIL,
 } from './actionTypes'
 
 export const submitOrderRequest = () => ({
-  type: SUBMIT_ORDERS_REQUEST
+  type: SUBMIT_ORDERS_REQUEST,
 })
 
 export const submitOrderSuccess = () => ({
-  type: SUBMIT_ORDERS_SUCCESS
+  type: SUBMIT_ORDERS_SUCCESS,
 })
 
 export const submitOrderFail = res => ({
   type: SUBMIT_ORDERS_FAIL,
-  payload: res
+  payload: res,
 })
 
 export const getOrdersRequest = () => ({
-  type: GET_ORDERS_REQUEST
+  type: GET_ORDERS_REQUEST,
 })
 
 export const getOrdersSuccess = res => ({
   type: GET_ORDERS_SUCCESS,
-  payload: res
+  payload: res,
 })
 
 export const getOrdersFail = err => ({
   type: GET_ORDERS_FAIL,
-  payload: err
+  payload: err,
+})
+
+export const getAllOrdersRequest = () => ({
+  type: GET_ALL_ORDERS_REQUEST,
+})
+
+export const getAllOrdersSuccess = res => ({
+  type: GET_ALL_ORDERS_SUCCESS,
+  payload: res,
+})
+
+export const getAllOrdersFail = err => ({
+  type: GET_ALL_ORDERS_FAIL,
+  payload: err,
 })
