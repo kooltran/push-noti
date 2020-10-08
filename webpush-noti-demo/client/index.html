@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Push Notifications using node</title>
+    <script src="client.js"></script>
+  </head>
+  <body>
+    <h1>Push notification using node</h1>
+
+    <button onclick="subScribe()">Send Notification</button>
+
+    <script>
+      function subScribe() {
+        if ('serviceWorker' in navigator) {
+          send().catch(err => console.error(err))
+        }
+      }
+    </script>
+  </body>
+</html>
